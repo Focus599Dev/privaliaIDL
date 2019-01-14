@@ -1,0 +1,51 @@
+{
+    "name": "Focus599Dev/privaliaIDL",
+    "type": "library",
+    "description": "API para comunicação com a IDL",
+    "keywords": ["IDL","privalia"],
+    "homepage": "https://github.com/Focus599Dev/privaliaIDL",
+    "license": ["LGPL-3.0-or-later", "GPL-3.0-or-later", "MIT"],
+    "authors": [
+        {
+            "name": "Marlon O. Barbosa",
+            "email": "marlon.academi@gmail.com",
+            "homepage": "https://github.com/Focus599Dev",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "ext-curl": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "ext-xml": "*"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+          "Focus599Dev\\privaliaIDL\\": "src/"
+        } 
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Focus599Dev\\privaliaIDL\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpcbf": "vendor/bin/phpcbf --standard=psr2 src/ & vendor/bin/phpcbf --standard=psr2 tests/",
+        "phpcs": "vendor/bin/phpcs --standard=psr2 src/; vendor/bin/phpcs --standard=psr2 tests/",
+        "phpstan": "vendor/bin/phpstan analyse src/ --level 7"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "stable"
+}
