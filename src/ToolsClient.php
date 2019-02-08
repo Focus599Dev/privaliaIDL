@@ -91,15 +91,23 @@ class ToolsClient extends BaseTools {
 	   			new \SoapParam($data, 'root')
 			]);
 
-		} catch(\Exception $e){
 
-			throw new \SoapFault('Erro no SOAP:' , $e->getMessage());
+            $this->response = $response;
+
+
+		} catch(\SoapFault $e){
+
+            $this->response = $this->server->__getLastResponse();
+
+            $this->response = $this->removeStuffs($this->response);
+
+            $this->response = str_replace('ns1:', '', $this->response);
+
+            return simplexml_load_string($this->response);
 			
 		}
 
-		$this->response = $response;
-
-		return $response;
+        return $this->response;
 	}
 
 	public function cancelNFe($nrPedido){
@@ -129,6 +137,34 @@ class ToolsClient extends BaseTools {
         return $this->sendRequest('setCancelamentoNFe', utf8_encode($this->dom->saveXML()));
 
 	}
+
+    public function cancelPedido(\StdClass $pedido){
+
+        $this->clearDom();
+        
+        $cancelamentoNFe = $this->dom->createElement("cancelamentoNFe");
+
+        $this->dom->addChild(
+            $cancelamentoNFe,
+            "nrPedido",
+            $nrPedido,
+            true,
+            "Número do pedido"
+        );
+
+        $this->dom->addChild(
+            $cancelamentoNFe,
+            "tipoCancelamento",
+            'PEDIDO',
+            true,
+            "tipo de cancelamento"
+        );
+
+        $this->dom->appendChild($cancelamentoNFe);
+
+        return $this->sendRequest('setCancelamentoNFe', utf8_encode($this->dom->saveXML()));
+
+    }
 
 	public function enviaPedido(\StdClass $pedido){
 
@@ -339,7 +375,40 @@ class ToolsClient extends BaseTools {
 
         return $this->sendRequest('setEnvPedido', $this->dom->saveXML());
 
-	}	
+	}
+
+    public function removeStuffs($xml){     
+
+        $tag = '<SOAP-ENV:Body>';
+
+        $xml = substr( $xml, ( strpos($xml, $tag) + strlen($tag) ), strlen($xml)  );
+            
+        $tag = '</SOAP-ENV:Body>';
+
+        $xml = substr( $xml, 0 , strpos($xml, $tag) );
+
+        $find = array(
+            ' xsi:type="xsd:string"',
+            ' xmlns:ns1="http://177.126.188.66/WSPrivalia"',
+            ' xmlns:ns1="http://177.126.188.77/WSPrivalia"',
+            ' xsi:type="tns:arrEnvPedidoReturn"',
+            ' xsi:type="xsd:integer"',
+            ' xsi:type="xsd:integer"',
+        );
+
+        $replace = array(
+            '',
+            '',
+            '',
+            '',
+            '',
+            '',
+        );
+
+        $xml = str_replace($find, $replace, $xml);
+
+        return $xml;
+    }	
 
 }
 
