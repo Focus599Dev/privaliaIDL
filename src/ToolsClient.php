@@ -4,6 +4,7 @@ namespace Focus599Dev\privaliaIDL;
 
 use Focus599Dev\privaliaIDL\Common\Tools as BaseTools;
 use Focus599Dev\privaliaIDL\Common\DOMImproved as Dom;
+use SoapFault;
 
 class ToolsClient extends BaseTools {
 
@@ -95,13 +96,15 @@ class ToolsClient extends BaseTools {
             $this->response = $response;
 
 
-		} catch(\SoapFault $e){
+		} catch(SoapFault $e){
 
             $this->response = $this->server->__getLastResponse();
 
             $this->response = $this->removeStuffs($this->response);
 
             $this->response = str_replace('ns1:', '', $this->response);
+
+            error_clear_last();
 
             return simplexml_load_string($this->response);
 			
