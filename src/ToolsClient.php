@@ -150,7 +150,7 @@ class ToolsClient extends BaseTools {
         $this->dom->addChild(
             $cancelamentoNFe,
             "nrPedido",
-            $nrPedido,
+            $pedido->nrPedido,
             true,
             "Número do pedido"
         );
