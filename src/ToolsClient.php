@@ -380,6 +380,34 @@ class ToolsClient extends BaseTools {
 
 	}
 
+    public function estrategiaLiberacao(\StdClass $pedido){
+
+        $this->clearDom();
+        
+        $estrategiaLiberacao = $this->dom->createElement("estrategiaLiberacao");
+
+        $this->dom->addChild(
+            $estrategiaLiberacao,
+            "nrPedidoCompra",
+            $pedido->nrPedido,
+            true,
+            "Pedido de compra"
+        );
+
+        $this->dom->addChild(
+            $estrategiaLiberacao,
+            "campanha",
+            $pedido->campanha,
+            true,
+            "campanha"
+        );        
+
+         $this->dom->appendChild($estrategiaLiberacao);
+
+        return $this->sendRequest('setEstrategiaLiberacao', $this->dom->saveXML());
+
+    }
+
     public function removeStuffs($xml){     
 
         $tag = '<SOAP-ENV:Body>';
@@ -409,6 +437,8 @@ class ToolsClient extends BaseTools {
         );
 
         $xml = str_replace($find, $replace, $xml);
+
+        $xml = preg_replace('/ xsi:type="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/', '', $xml);
 
         return $xml;
     }	
