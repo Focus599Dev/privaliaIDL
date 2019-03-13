@@ -32,6 +32,12 @@ class ToolsServer{
 
 		$this->server->handle();
 	}
+
+	public function getServer(){
+
+		return $this->server;
+		
+	}
 }
 
 ?>
