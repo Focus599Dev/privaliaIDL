@@ -242,6 +242,14 @@ class ToolsClient extends BaseTools {
         );
 
         $this->dom->addChild(
+            $pedidoXML,
+            "ordemVenda",
+            $pedido->ordemVenda,
+            true,
+            "Ordem de venda"
+        );
+
+        $this->dom->addChild(
             $cliente,
             "nomeCliente",
             $pedido->cliente->nomeCliente,
