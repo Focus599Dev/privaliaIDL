@@ -158,7 +158,7 @@ class ToolsClient extends BaseTools {
         $this->dom->addChild(
             $cancelamentoNFe,
             "tipoCancelamento",
-            'PEDIDO',
+            $pedido->typePedido,
             true,
             "tipo de cancelamento"
         );
