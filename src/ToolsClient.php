@@ -12,13 +12,13 @@ class ToolsClient extends BaseTools {
 
 	private $dom;
 
-	public function __construct($tAmb){
+	public function __construct($tAmb, $centro){
 
 		parent::__construct($tAmb);
 
 		$parameters = array(
-			'location' => $this->url[$this->tAmb],
-			'uri' => $this->uri[$this->tAmb],
+			'location' => $this->url[$centro][$this->tAmb],
+			'uri' => $this->uri[$centro][$this->tAmb],
 			'trace' => 1
 		);
 
@@ -92,7 +92,6 @@ class ToolsClient extends BaseTools {
 	   			new \SoapParam($data, 'root')
 			]);
 
-
             $this->response = $response;
 
 
@@ -109,6 +108,8 @@ class ToolsClient extends BaseTools {
             return simplexml_load_string($this->response);
 			
 		}
+
+        var_dump($this->response);
 
         return $this->response;
 	}
