@@ -109,8 +109,6 @@ class ToolsClient extends BaseTools {
 			
 		}
 
-        var_dump($this->response);
-
         return $this->response;
 	}
 
