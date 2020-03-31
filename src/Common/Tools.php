@@ -24,6 +24,10 @@ class Tools {
 			1 => 'http://177.126.188.77/WSPrivalia',
 			2 => 'http://177.126.188.66/WSPrivalia'
 		),
+		'0560' => array(
+			1 => 'http://177.126.188.77/WSPrivalia',
+			2 => 'http://177.126.188.66/WSPrivalia'
+		),
 		'0530' => array(
 			1 => 'http://wsprivalia.sequoialog.com.br:8895',
 			2 => 'http://wsprivalia.sequoialog.com.br:8895'
