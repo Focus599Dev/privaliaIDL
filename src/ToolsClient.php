@@ -12,6 +12,8 @@ class ToolsClient extends BaseTools {
 
 	private $dom;
 
+    protected $wsdl;
+
 	public function __construct($tAmb, $centro){
 
 		parent::__construct($tAmb);
@@ -19,10 +21,18 @@ class ToolsClient extends BaseTools {
 		$parameters = array(
 			'location' => $this->url[$centro][$this->tAmb],
 			'uri' => $this->uri[$centro][$this->tAmb],
-			'trace' => 1
+			'trace' => 1,
 		);
 
-		$this->server = new \SoapClient(NULL, $parameters);
+        $this->wsdl = null;
+
+        if (isset($this->wsdlList[$centro][$this->tAmb])){
+            
+            $this->wsdl = $this->wsdlList[$centro][$this->tAmb];
+
+        }
+
+		$this->server = new \SoapClient($this->wsdl, $parameters);
 
 		if (!$this->dom)
 			$this->clearDom();
@@ -88,9 +98,28 @@ class ToolsClient extends BaseTools {
 
 		try{
 
-			$response = $this->server->__soapCall($method,  [
-	   			new \SoapParam($data, 'root')
-			]);
+            if ($this->wsdl){
+
+                $response = $this->server->{$method}(array('sXml' => $data));
+
+                $fieldResponse = $method . 'Result';
+
+                if ( isset($response->{$fieldResponse}) ){
+                    
+                    $response = $response->{$fieldResponse};
+
+                    $response = $this->removeStuffs($response);
+
+                    $response = simplexml_load_string($response);
+                }
+
+            } else {
+                
+                $response = $this->server->__soapCall($method,  [
+                    new \SoapParam($data, 'root')
+                ]);
+
+            }
 
             $this->response = $response;
 
@@ -419,11 +448,19 @@ class ToolsClient extends BaseTools {
 
         $tag = '<SOAP-ENV:Body>';
 
-        $xml = substr( $xml, ( strpos($xml, $tag) + strlen($tag) ), strlen($xml)  );
+        $pos1 = strpos($xml, $tag);
+
+        if ($pos1 !== false){
+            $xml = substr( $xml, ( $pos1 + strlen($tag) ), strlen($xml)  );
+        }
             
         $tag = '</SOAP-ENV:Body>';
 
-        $xml = substr( $xml, 0 , strpos($xml, $tag) );
+        $pos1 = strpos($xml, $tag);
+
+        if ($pos1 !== false){
+            $xml = substr( $xml, 0 , strpos($xml, $tag) );
+        }
 
         $find = array(
             ' xsi:type="xsd:string"',
@@ -432,6 +469,8 @@ class ToolsClient extends BaseTools {
             ' xsi:type="tns:arrEnvPedidoReturn"',
             ' xsi:type="xsd:integer"',
             ' xsi:type="xsd:integer"',
+            ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"',
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
         );
 
         $replace = array(
@@ -446,6 +485,8 @@ class ToolsClient extends BaseTools {
         $xml = str_replace($find, $replace, $xml);
 
         $xml = preg_replace('/ xsi:type="[a-zA-Z0-9:;\.\s\(\)\-\,]*"/', '', $xml);
+
+        $xml = trim(preg_replace("/<\?xml.*?\?>/", "", $xml));
 
         return $xml;
     }	
