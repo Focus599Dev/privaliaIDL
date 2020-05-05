@@ -19,6 +19,21 @@ class Tools {
 		)
 	);
 
+	protected $wsdlList = array(
+		'0550' => array(
+			1 => NULL,
+			2 => NULL
+		),
+		'0560' => array(
+			1 => NULL,
+			2 => NULL
+		),
+		'0530' => array(
+			1 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl',
+			2 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl'
+		)
+	);
+
 	protected $uri = array(
 		'0550' => array(
 			1 => 'http://177.126.188.77/WSPrivalia',
