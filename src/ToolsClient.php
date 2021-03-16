@@ -49,7 +49,7 @@ class ToolsClient extends BaseTools {
 
 	}
 
-	public function sendNFe($nrPedido, $chave, $xml){
+	public function sendNFe($nrPedido, $chave, $xml, $pdf = ''){
 
 		$this->clearDom();
 		
@@ -81,6 +81,18 @@ class ToolsClient extends BaseTools {
             true,
             "XML NFe"
         );
+		
+	if ($pdf){
+
+            $this->dom->addChild(
+                $recebeNFe,
+                "pdfNfeSimp",
+                $pdf,
+                true,
+                "Danfe Simplificada"
+            );
+
+        }	
 
         $this->dom->appendChild($recebeNFe);
 
