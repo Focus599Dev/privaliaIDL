@@ -416,6 +416,14 @@ class ToolsClient extends BaseTools {
 			        true,
 			        "Preço Item"
 			    );
+			
+			     $this->dom->addChild(
+			        $itemXML,
+			        "zcam",
+			        $item->zcam,
+			        false,
+			        "zcam"
+			    );
 
         		$this->dom->appChild($pedidoXML, $itemXML, 'Falta tag "pedido"');
 
