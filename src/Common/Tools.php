@@ -14,12 +14,12 @@ class Tools {
 			2 => 'http://177.126.188.66/WSPrivalia/wsPrivalia.php'
 		),
 		'0530' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc'
+			1 => 'http://177.126.188.77/WSPrivalia/wsPrivalia.php',
+			2 => 'http://177.126.188.66/WSPrivalia/wsPrivalia.php'
 		),
 		'0570' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc'
+			1 => 'http://177.126.188.77/WSPrivalia/wsPrivalia.php',
+			2 => 'http://177.126.188.66/WSPrivalia/wsPrivalia.php'
 		)
 	);
 
@@ -33,12 +33,12 @@ class Tools {
 			2 => NULL
 		),
 		'0530' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl'
+			1 => NULL,
+			2 => NULL
 		),
 		'0570' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282/SrvPrivalia.svc?wsdl'
+			1 => NULL,
+			2 => NULL
 		)
 	);
 
@@ -52,12 +52,12 @@ class Tools {
 			2 => 'http://177.126.188.66/WSPrivalia'
 		),
 		'0530' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282'
+			1 => 'http://177.126.188.77/WSPrivalia',
+			2 => 'http://177.126.188.66/WSPrivalia'
 		),
 		'0570' => array(
-			1 => 'http://wsprivalia.sequoialog.com.br:8282',
-			2 => 'http://wsprivalia.sequoialog.com.br:8282'
+			1 => 'http://177.126.188.77/WSPrivalia',
+			2 => 'http://177.126.188.66/WSPrivalia'
 		)
 	);
 	
