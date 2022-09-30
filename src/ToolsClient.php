@@ -280,6 +280,14 @@ class ToolsClient extends BaseTools {
             true,
             "Numero deposito"
         );
+	
+	$this->dom->addChild(
+            $pedidoXML,
+            "primeiraCompra",
+            $pedido->primeiraCompra,
+            true,
+            "primeira Compra"
+        );	
 
         $this->dom->addChild(
             $pedidoXML,
