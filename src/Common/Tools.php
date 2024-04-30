@@ -20,6 +20,10 @@ class Tools {
 		'0570' => array(
 			1 => 'http://177.126.188.77/WSPrivalia/wsPrivalia.php',
 			2 => 'http://177.126.188.66/WSPrivalia/wsPrivalia.php'
+		),
+		'0580' => array(
+			1 => '',
+			2 => ''
 		)
 	);
 
@@ -39,6 +43,10 @@ class Tools {
 		'0570' => array(
 			1 => NULL,
 			2 => NULL
+		),
+		'0580' => array(
+			1 => '',
+			2 => ''
 		)
 	);
 
@@ -58,6 +66,10 @@ class Tools {
 		'0570' => array(
 			1 => 'http://177.126.188.77/WSPrivalia',
 			2 => 'http://177.126.188.66/WSPrivalia'
+		),
+		'0580' => array(
+			1 => '',
+			2 => ''
 		)
 	);
 	

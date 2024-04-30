@@ -14,6 +14,13 @@ class ToolsClient extends BaseTools {
 
     protected $wsdl;
 
+    protected $centro;
+
+    protected $auth = array(
+        'user' => '',
+        'password' => '',
+    );
+
 	public function __construct($tAmb, $centro){
 
 		parent::__construct($tAmb);
@@ -36,6 +43,8 @@ class ToolsClient extends BaseTools {
 
 		if (!$this->dom)
 			$this->clearDom();
+
+        $this->centro = $centro;
 
 	}
 
@@ -100,9 +109,9 @@ class ToolsClient extends BaseTools {
 
 	}
 
-	private function sendRequest ($method, $data){
-		
-		$response = null;
+    private function sendRequestSoap($method, $data){
+
+        $response = null;
 
 		$data = trim(preg_replace("/<\?xml.*?\?>/", "", $data));
 
@@ -151,6 +160,96 @@ class ToolsClient extends BaseTools {
 		}
 
         return $this->response;
+
+    }
+
+    private function urlAPI($method){
+
+        $urls = array(
+            'setEnvPedido' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/M50_Order',
+            'setEstrategiaLiberacao' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/R41_BatchSts',
+            'setRecebeStatusFat' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/NFe_OrdUpd',
+        );
+
+        if (isset($urls[$method]))
+            return $urls[$method];
+
+        return null;
+    }
+
+    private function sendRequestApi($method, $data){
+
+        $url = $this->urlAPI($method);
+
+        if (!$url)
+            return null;
+
+        $ch = curl_init( $url );
+
+        $data = $this->makeEnvelopeAPI($data);
+
+        $msgSize = strlen($data);
+
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Content-length' => $msgSize,
+            'Authorization' => 'Basic ' . base64_encode($this->auth['user'] . ':' . $this->auth['password'])
+        );
+
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, $data );
+
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers);
+
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30 + 20);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+
+        var_dump($response);
+        
+        curl_close($ch);
+    }
+
+    private function setAuth($user, $pass){
+
+        $this->auth = array(
+            'user' => $user,
+            'password' => $pass,
+        );
+    }
+
+    private function makeEnvelopeAPI($data){
+
+        return "
+        <SOAP:Envelope xmlns:SOAP='http://schemas.xmlsoap.org/soap/envelope/'>
+            <SOAP:Header/>
+            <SOAP:Body>
+                $data
+            </SOAP:Body>
+        </SOAP:Envelope>
+        ";
+    }
+
+	private function sendRequest ($method, $data){
+
+        $centroToSendApi = array(
+            '0580'
+        );
+
+        if (in_array($this->centro, $centroToSendApi)){
+
+            return $this->sendRequestApi($method, $data);
+        }
+		
+        return $this->sendRequest($method, $data);
+		
 	}
 
 	public function cancelNFe($nrPedido){
@@ -289,7 +388,7 @@ class ToolsClient extends BaseTools {
             "Ordem de venda"
         );
 		
-	$this->dom->addChild(
+	    $this->dom->addChild(
             $pedidoXML,
             "primeiraCompra",
             $pedido->primeiraCompra,
