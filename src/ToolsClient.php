@@ -41,7 +41,6 @@ class ToolsClient extends BaseTools {
 
         $this->centro = $centro;
 
-
 		$this->server = new \SoapClient($this->wsdl, $parameters);
 
 		if (!$this->dom)
