@@ -39,12 +39,13 @@ class ToolsClient extends BaseTools {
 
         }
 
+        $this->centro = $centro;
+
+
 		$this->server = new \SoapClient($this->wsdl, $parameters);
 
 		if (!$this->dom)
 			$this->clearDom();
-
-        $this->centro = $centro;
 
 	}
 
@@ -217,7 +218,7 @@ class ToolsClient extends BaseTools {
         curl_close($ch);
     }
 
-    private function setAuth($user, $pass){
+    public function setAuth($user, $pass){
 
         $this->auth = array(
             'user' => $user,
@@ -248,7 +249,7 @@ class ToolsClient extends BaseTools {
             return $this->sendRequestApi($method, $data);
         }
 		
-        return $this->sendRequest($method, $data);
+        return $this->sendRequestSoap($method, $data);
 		
 	}
 

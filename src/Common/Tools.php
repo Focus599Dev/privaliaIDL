@@ -45,8 +45,8 @@ class Tools {
 			2 => NULL
 		),
 		'0580' => array(
-			1 => '',
-			2 => ''
+			1 => NULL,
+			2 => NULL
 		)
 	);
 
