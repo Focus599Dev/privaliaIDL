@@ -105,7 +105,18 @@ class ToolsClient extends BaseTools {
 
         $this->dom->appendChild($recebeNFe);
 
-        return $this->sendRequest('setRecebeStatusFat', $this->dom->saveXML());
+        $xml = $this->dom->saveXML();
+
+        $xml = str_replace(array(
+            '&lt;![CDATA[',
+            ']]&gt;'
+        ),
+        array(
+            '<![CDATA[',
+            ']]>'
+        ), $xml);
+
+        return $this->sendRequest('setRecebeStatusFat', $xml);
 
 	}
 
