@@ -220,9 +220,6 @@ class ToolsClient extends BaseTools {
 
         curl_close($ch);
 
-        var_dump($response);
-        var_dump($data);
-
         switch($httpcode){
             case '200':
                 return json_decode('{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}');
@@ -230,7 +227,7 @@ class ToolsClient extends BaseTools {
             case '':
                 return null;
             default:
-                return json_decode('{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"Sem Resposta do webservice"}');
+                return json_decode('{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"' . $response . '"}');
 
         }
     }
@@ -244,6 +241,8 @@ class ToolsClient extends BaseTools {
     }
 
     private function makeEnvelopeAPI($data){
+
+        $data = trim(preg_replace("/<\?xml.*?\?>/", "", $data));
 
         return '
         <SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
