@@ -212,9 +212,9 @@ class ToolsClient extends BaseTools {
 
         $response = curl_exec($ch);
 
-        curl_close($ch);
-
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        curl_close($ch);
 
         switch($httpcode){
             case '200':
