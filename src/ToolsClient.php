@@ -166,9 +166,9 @@ class ToolsClient extends BaseTools {
     private function urlAPI($method){
 
         $urls = array(
-            'setEnvPedido' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/M50_Order',
-            'setEstrategiaLiberacao' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/R41_BatchSts',
-            'setRecebeStatusFat' => 'http://156.137.46.12/exchange/ZZAIHMQTEST/Privalia_BR/NFe_OrdUpd',
+            'setEnvPedido' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/M50_Order',
+            'setEstrategiaLiberacao' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/R41_BatchSts',
+            'setRecebeStatusFat' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/NFe_OrdUpd',
         );
 
         if (isset($urls[$method]))
@@ -212,9 +212,20 @@ class ToolsClient extends BaseTools {
 
         $response = curl_exec($ch);
 
-        var_dump($response);
-        
         curl_close($ch);
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        switch($httpcode){
+            case '200':
+                return '{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}';
+            break;
+            case '':
+                return null;
+            default:
+                return '{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"Sem Resposta do webservice"}';
+
+        }
     }
 
     public function setAuth($user, $pass){
@@ -227,14 +238,14 @@ class ToolsClient extends BaseTools {
 
     private function makeEnvelopeAPI($data){
 
-        return "
-        <SOAP:Envelope xmlns:SOAP='http://schemas.xmlsoap.org/soap/envelope/'>
+        return '
+        <SOAP:Envelope xmlns:SOAP="http://schemas.xmlsoap.org/soap/envelope/">
             <SOAP:Header/>
             <SOAP:Body>
-                $data
+                ' . $data . '
             </SOAP:Body>
         </SOAP:Envelope>
-        ";
+        ';
     }
 
 	private function sendRequest ($method, $data){
