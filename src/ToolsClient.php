@@ -219,7 +219,10 @@ class ToolsClient extends BaseTools {
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
-        
+
+        var_dump($response);
+        var_dump($data);
+
         switch($httpcode){
             case '200':
                 return json_decode('{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}');
