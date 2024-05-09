@@ -202,9 +202,13 @@ class ToolsClient extends BaseTools {
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30 + 20);
+        // curl_setopt($ch, CURLOPT_TIMEOUT, 30 + 20);
+
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5 );
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
@@ -215,15 +219,15 @@ class ToolsClient extends BaseTools {
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         curl_close($ch);
-
+        
         switch($httpcode){
             case '200':
-                return '{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}';
+                return json_decode('{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}');
             break;
             case '':
                 return null;
             default:
-                return '{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"Sem Resposta do webservice"}';
+                return json_decode('{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"Sem Resposta do webservice"}');
 
         }
     }
