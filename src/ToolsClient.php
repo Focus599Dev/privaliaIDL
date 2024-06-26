@@ -167,13 +167,13 @@ class ToolsClient extends BaseTools {
             error_clear_last();
 
 		var_dump($this->response);
-		var_dump($this->server);
+		
 
             return simplexml_load_string($this->response);
 			
 		}
 	var_dump($this->response);
-	var_dump($this->server);
+	
         return $this->response;
 
     }
