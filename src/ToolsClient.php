@@ -165,14 +165,13 @@ class ToolsClient extends BaseTools {
             $this->response = str_replace('ns1:', '', $this->response);
 
             error_clear_last();
-
-		var_dump($this->response);
-		
-
-            return simplexml_load_string($this->response);
+		try{
 			
+            		return simplexml_load_string($this->response);
+		} catch(\Exception $e){
+			return false;
 		}
-	var_dump($this->response);
+		}
 	
         return $this->response;
 
