@@ -202,6 +202,8 @@ class ToolsClient extends BaseTools {
 
         $data = $this->makeEnvelopeAPI($data);
 
+	$this->request = $data;
+
         $msgSize = strlen($data);
 
         $headers = array(
