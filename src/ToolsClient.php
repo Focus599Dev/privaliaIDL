@@ -216,9 +216,9 @@ class ToolsClient extends BaseTools {
 
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
 
-        // curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 
-        // curl_setopt($ch, CURLOPT_TIMEOUT, 30 + 20);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30 + 30);
 
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 
@@ -228,7 +228,7 @@ class ToolsClient extends BaseTools {
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        $response = curl_exec($ch);
+        $responseAPI= curl_exec($ch);
 
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
@@ -236,14 +236,16 @@ class ToolsClient extends BaseTools {
 
         switch($httpcode){
             case '200':
-                return json_decode('{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}');
+                $response = json_decode('{"codigoRetorno":"100","nrPedido":"","msgRetorno":"OK"}');
             break;
-            case '':
-                return null;
             default:
-                return json_decode('{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"' . $response . '"}');
+                $response =  json_decode('{"codigoRetorno":"' . $httpcode . '","nrPedido":"","msgRetorno":"' . $responseAPI . '"}');
 
         }
+
+        $this->response = $response;
+
+        return $response;
     }
 
     public function setAuth($user, $pass){
