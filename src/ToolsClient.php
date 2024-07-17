@@ -107,15 +107,6 @@ class ToolsClient extends BaseTools {
 
         $xml = $this->dom->saveXML();
 
-        $xml = str_replace(array(
-            '&lt;![CDATA[',
-            ']]&gt;'
-        ),
-        array(
-            '<![CDATA[',
-            ']]>'
-        ), $xml);
-
         return $this->sendRequest('setRecebeStatusFat', $xml);
 
 	}
@@ -211,6 +202,15 @@ class ToolsClient extends BaseTools {
             return null;
 
         $ch = curl_init( $url );
+
+	$data = str_replace(array(
+            '&lt;![CDATA[',
+            ']]&gt;'
+        ),
+        array(
+            '<![CDATA[',
+            ']]>'
+        ), $data);
 
         $data = $this->makeEnvelopeAPI($data);
 
