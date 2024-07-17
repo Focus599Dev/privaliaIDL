@@ -179,11 +179,23 @@ class ToolsClient extends BaseTools {
 
     private function urlAPI($method){
 
-        $urls = array(
-            'setEnvPedido' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/M50_Order',
-            'setEstrategiaLiberacao' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/R41_BatchSts',
-            'setRecebeStatusFat' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/NFe_OrdUpd',
-        );
+        if ($this->tAmb == 1){
+
+            $urls = array(
+                'setEnvPedido' => 'https://dsc.b2b.systems.dhl/exchange/ZZAIHMQPROD/Privalia_BR/M50_Order',
+                'setEstrategiaLiberacao' => 'https://dsc.b2b.systems.dhl/exchange/ZZAIHMQPROD/Privalia_BR/R41_BatchSts',
+                'setRecebeStatusFat' => 'https://dsc.b2b.systems.dhl/exchange/ZZAIHMQPROD/Privalia_BR/NFe_OrdUpd',
+            );
+
+        } else {
+           
+            $urls = array(
+                'setEnvPedido' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/M50_Order',
+                'setEstrategiaLiberacao' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/R41_BatchSts',
+                'setRecebeStatusFat' => 'https://156.137.46.15/exchange/ZZAIHMQTEST/Privalia_BR/NFe_OrdUpd',
+            );
+
+        }
 
         if (isset($urls[$method]))
             return $urls[$method];
